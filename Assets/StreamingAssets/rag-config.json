@@ -1,0 +1,22 @@
+{
+    "backend": "sqlite",
+    "vectorStoreEndpoint": "http://localhost:6333",
+    "vectorStoreApiKey": "",
+    "collectionName": "maf_rag",
+    "pgHost": "localhost",
+    "pgPort": 5432,
+    "pgDatabase": "postgres",
+    "pgUser": "postgres",
+    "pgPassword": "",
+    "pgTable": "rag_chunks",
+    "embeddingEndpoint": "http://192.168.3.166:11434/v1",
+    "embeddingApiKey": "ollama",
+    "embeddingModel": "qwen3-embedding:0.6b",
+    "chatEndpoint": "http://192.168.3.166:11434/v1",
+    "chatApiKey": "ollama",
+    "chatModel": "qwen3.6:35b-a3b-mtp-q4_K_M",
+    "chunkSize": 500,
+    "overlap": 100,
+    "topK": 4,
+    "defaultMarkdownDir": "F:/Work/AiCodes/Unity/MafRagUnity/Assets/StreamingAssets\\rag-doc"
+}

@@ -1,0 +1,37 @@
+# ===== MafRagUnity (Unity project) .gitignore =====
+# 仅纳入构建必需的源文件：Assets / ProjectSettings / Packages / README / docker-compose
+# 排除 Unity 生成的缓存与临时目录、IDE 生成文件、日志与备份
+
+## Unity 生成目录（可重新生成，绝不提交）##
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emory[Cc]aptures/
+
+## IDE / Unity 生成的工程文件 ##
+*.csproj
+*.unityproj
+*.sln
+*.booproj
+*.userprefs
+.vs/
+.idea/
+
+## 操作系统 / 杂项 ##
+.DS_Store
+Thumbs.db
+
+## 构建与日志产物 ##
+*.log
+unity_build.log
+
+## 备份文件 ##
+*.bak
+*.bak2
+
+## Asset Store Tools（如有）##
+/[Aa]ssets/AssetStoreTools*
