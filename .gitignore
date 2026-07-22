@@ -35,3 +35,6 @@ unity_build.log
 
 ## Asset Store Tools（如有）##
 /[Aa]ssets/AssetStoreTools*
+
+## macOS AppleDouble 副文件（._Filename，跨平台拷贝时产生的垃圾）##
+._*
