@@ -77,7 +77,7 @@ namespace MafRag
             tbr.sizeDelta = new Vector2(0, 110); tbr.anchoredPosition = new Vector2(0, -40); // 整体向下移动半个按钮高度（按钮高 80 → 40），远离上边缘避免裁切
             topBar.GetComponent<Image>().color = new Color(0.10f, 0.11f, 0.14f);
 
-            var title = MafRagUI.MakeText(topBar.transform, "RAG 参数 / 数据管理", 36, MafRagUI.TextColor, TextAnchor.MiddleLeft);
+            var title = MafRagUI.MakeText(topBar.transform, "RAG 参数 / 数据管理", 40, MafRagUI.TextColor, TextAnchor.MiddleLeft);
             var trt = title.gameObject.GetComponent<RectTransform>();
             trt.anchorMin = new Vector2(0, 0.5f); trt.anchorMax = new Vector2(0, 0.5f); trt.pivot = new Vector2(0, 0.5f);
             trt.sizeDelta = new Vector2(520, 60); trt.anchoredPosition = new Vector2(24, 0);
@@ -190,7 +190,7 @@ namespace MafRag
 
             // ---------- ⑥ 日志 ----------
             AddLogSection();
-            _status = MafRagUI.MakeText(g5, "就绪（当前后端：" + BackendLabel() + "）", 24, MafRagUI.Muted, TextAnchor.UpperLeft);
+            _status = MafRagUI.MakeText(g5, "就绪（当前后端：" + BackendLabel() + "）", 28, MafRagUI.Muted, TextAnchor.UpperLeft);
             var stt = _status.gameObject.GetComponent<RectTransform>();
             stt.anchorMin = new Vector2(0, 1); stt.anchorMax = new Vector2(1, 1);
             stt.sizeDelta = new Vector2(0, 0); stt.anchoredPosition = Vector2.zero;
@@ -218,7 +218,7 @@ namespace MafRag
             vlg.spacing = 10; vlg.padding = new RectOffset(18, 18, 14, 16);
             vlg.childControlWidth = true; vlg.childControlHeight = true; vlg.childForceExpandWidth = false; vlg.childForceExpandHeight = false;
             sec.GetComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-            var t = MafRagUI.MakeText(sec.transform, title, 34, MafRagUI.Accent, TextAnchor.MiddleLeft);
+            var t = MafRagUI.MakeText(sec.transform, title, 40, MafRagUI.Accent, TextAnchor.MiddleLeft);
             var trt = t.gameObject.GetComponent<RectTransform>();
             trt.anchorMin = new Vector2(0, 1); trt.anchorMax = new Vector2(1, 1);
             trt.sizeDelta = new Vector2(0, 46); trt.anchoredPosition = Vector2.zero;
@@ -230,10 +230,10 @@ namespace MafRag
         // 分组下的说明文字（浅灰、小一号）
         private void AddDesc(Transform parent, string text)
         {
-            var t = MafRagUI.MakeText(parent, text, 24, MafRagUI.Muted, TextAnchor.UpperLeft);
+            var t = MafRagUI.MakeText(parent, text, 28, MafRagUI.Muted, TextAnchor.UpperLeft);
             var rt = t.gameObject.GetComponent<RectTransform>();
             rt.anchorMin = new Vector2(0, 1); rt.anchorMax = new Vector2(1, 1);
-            rt.sizeDelta = new Vector2(0, 56); rt.anchoredPosition = Vector2.zero;
+            rt.sizeDelta = new Vector2(0, 64); rt.anchoredPosition = Vector2.zero;
             rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
             t.gameObject.AddComponent<LayoutElement>().preferredHeight = 56;
         }
@@ -263,7 +263,7 @@ namespace MafRag
             vlg.childControlWidth = true; vlg.childControlHeight = true; vlg.childForceExpandWidth = false; vlg.childForceExpandHeight = false;
             col.GetComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             col.AddComponent<LayoutElement>().flexibleWidth = 1;
-            var t = MafRagUI.MakeText(col.transform, title, 30, MafRagUI.TextColor, TextAnchor.MiddleLeft);
+            var t = MafRagUI.MakeText(col.transform, title, 36, MafRagUI.TextColor, TextAnchor.MiddleLeft);
             var trt = t.gameObject.GetComponent<RectTransform>();
             trt.anchorMin = new Vector2(0, 1); trt.anchorMax = new Vector2(1, 1);
             trt.sizeDelta = new Vector2(0, 40); trt.anchoredPosition = Vector2.zero;
@@ -328,11 +328,11 @@ namespace MafRag
             hlg.spacing = 12; hlg.padding = new RectOffset(14, 14, 15, 15);
             hlg.childControlWidth = true; hlg.childControlHeight = false; hlg.childForceExpandWidth = false; hlg.childForceExpandHeight = false;
 
-            var lbl = MafRagUI.MakeText(row.transform, label, 26, new Color(0.82f, 0.84f, 0.88f), TextAnchor.MiddleLeft);
-            var lle = lbl.gameObject.AddComponent<LayoutElement>(); lle.preferredWidth = 200; lle.preferredHeight = 30; lle.flexibleHeight = 0;
+            var lbl = MafRagUI.MakeText(row.transform, label, 30, new Color(0.82f, 0.84f, 0.88f), TextAnchor.MiddleLeft);
+            var lle = lbl.gameObject.AddComponent<LayoutElement>(); lle.preferredWidth = 220; lle.preferredHeight = 36; lle.flexibleHeight = 0;
 
-            var inp = MafRagUI.MakeInput(row.transform, placeholder, 26);
-            var ile = inp.gameObject.AddComponent<LayoutElement>(); ile.flexibleWidth = 1; ile.minWidth = 160; ile.preferredHeight = 30; ile.flexibleHeight = 0;
+            var inp = MafRagUI.MakeInput(row.transform, placeholder, 30);
+            var ile = inp.gameObject.AddComponent<LayoutElement>(); ile.flexibleWidth = 1; ile.minWidth = 160; ile.preferredHeight = 36; ile.flexibleHeight = 0;
             if (!string.IsNullOrEmpty(value)) inp.text = value;
             return inp;
         }
@@ -467,7 +467,7 @@ namespace MafRag
             hrt.anchoredPosition = new Vector2(0, -40); hrt.sizeDelta = new Vector2(0, 80);
             hrt.offsetMin = new Vector2(12, 0); hrt.offsetMax = new Vector2(-12, 0);
 
-            var title = MafRagUI.MakeText(header.transform, "日志（最近内容）", 30, MafRagUI.Accent, TextAnchor.MiddleCenter);
+            var title = MafRagUI.MakeText(header.transform, "日志（最近内容）", 34, MafRagUI.Accent, TextAnchor.MiddleCenter);
             var trt = title.gameObject.GetComponent<RectTransform>();
             // 占满整条栏宽度，行高取字体高度，再把标题整体下移一个字体高度（避免顶部溢出）
             trt.anchorMin = new Vector2(0, 0.5f); trt.anchorMax = new Vector2(1, 0.5f);
@@ -502,7 +502,7 @@ namespace MafRag
             vlg.childControlWidth = true; vlg.childControlHeight = false; vlg.childForceExpandWidth = false; vlg.childForceExpandHeight = false;
             content.GetComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
 
-            var txt = MafRagUI.MakeText(content, RagLogger.ReadTail(3000), 20, MafRagUI.Muted, TextAnchor.UpperLeft);
+            var txt = MafRagUI.MakeText(content, RagLogger.ReadTail(3000), 24, MafRagUI.Muted, TextAnchor.UpperLeft);
             var txtRT = txt.gameObject.GetComponent<RectTransform>();
             txtRT.anchorMin = new Vector2(0, 1); txtRT.anchorMax = new Vector2(1, 1);
             txtRT.sizeDelta = new Vector2(0, 0); txtRT.anchoredPosition = Vector2.zero;

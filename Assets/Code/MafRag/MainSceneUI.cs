@@ -44,7 +44,7 @@ namespace MafRag
             tbr.anchoredPosition = new Vector2(0, -40); // 整体向下移动半个按钮高度（顶部按钮高 80 → 40），远离上边缘避免裁切
             topBar.GetComponent<Image>().color = new Color(0.10f, 0.11f, 0.14f);
 
-            var title = MafRagUI.MakeText(topBar.transform, "MAF · RAG 对话", 38, MafRagUI.TextColor, TextAnchor.MiddleLeft);
+            var title = MafRagUI.MakeText(topBar.transform, "MAF · RAG 对话", 44, MafRagUI.TextColor, TextAnchor.MiddleLeft);
             var trt = title.gameObject.GetComponent<RectTransform>();
             trt.anchorMin = new Vector2(0, 0.5f); trt.anchorMax = new Vector2(0, 0.5f); trt.pivot = new Vector2(0, 0.5f);
             trt.sizeDelta = new Vector2(440, 60); trt.anchoredPosition = new Vector2(24, 0);
@@ -122,14 +122,14 @@ namespace MafRag
             bottomBar.GetComponent<Image>().color = new Color(0.10f, 0.11f, 0.14f);
 
             // 状态栏：加高到 110 以容纳多行来源信息（左上对齐，多行不裁切）
-            _status = MafRagUI.MakeText(bottomBar.transform, "就绪", 22, MafRagUI.Muted, TextAnchor.UpperLeft);
+            _status = MafRagUI.MakeText(bottomBar.transform, "就绪", 26, MafRagUI.Muted, TextAnchor.UpperLeft);
             var srt = _status.gameObject.GetComponent<RectTransform>();
             srt.anchorMin = new Vector2(0, 1); srt.anchorMax = new Vector2(1, 1);
             srt.sizeDelta = new Vector2(0, 110); srt.anchoredPosition = new Vector2(0, -12);
             srt.offsetMin = new Vector2(20, 0); srt.offsetMax = new Vector2(-20, 0);
 
             // 输入框：高 90，与发送按钮同垂直中心（bar 中心下移 45 → 本地 y=85），上方留 12px 避开状态栏
-            _input = MafRagUI.MakeInput(bottomBar.transform, "输入你的问题（中文）…", 34);
+            _input = MafRagUI.MakeInput(bottomBar.transform, "输入你的问题（中文）…", 38);
             var irt = _input.GetComponent<RectTransform>();
             irt.anchorMin = new Vector2(0, 0.5f); irt.anchorMax = new Vector2(1, 0.5f); irt.pivot = new Vector2(0.5f, 0.5f);
             irt.sizeDelta = new Vector2(0, 90); irt.anchoredPosition = new Vector2(0, -45);
@@ -195,7 +195,7 @@ namespace MafRag
 
         private void AddBubble(bool isUser, string text)
         {
-            MakeBubble(text, 32, MafRagUI.TextColor, isUser ? MafRagUI.UserBubble : MafRagUI.BotBubble, 60);
+            MakeBubble(text, 36, MafRagUI.TextColor, isUser ? MafRagUI.UserBubble : MafRagUI.BotBubble, 60);
             ScrollToBottom();
         }
 
@@ -205,7 +205,7 @@ namespace MafRag
             var sb = new StringBuilder();
             sb.AppendLine("参考来源：");
             foreach (var s in srcs) sb.AppendLine($"· {s.source}（相似度 {s.sim:F3}）");
-            MakeBubble(sb.ToString(), 26, new Color(0.7f, 0.95f, 0.8f), new Color(0.16f, 0.30f, 0.22f), 50);
+            MakeBubble(sb.ToString(), 30, new Color(0.7f, 0.95f, 0.8f), new Color(0.16f, 0.30f, 0.22f), 50);
             ScrollToBottom();
         }
 
@@ -230,15 +230,14 @@ namespace MafRag
             bool hadError = false;
             await RagManager.Instance.AskStreamingAsync(q,
                 tok => { acc += tok; UpdateTyping(acc); },
-                srcs => AddSources(srcs),
+                srcs => AddSources(srcs),   // 检索完成即动态显示参考来源（位于思考中气泡之后）
                 err => { if (_status != null) _status.text = err; hadError = true; });
-            EndTyping();
+            EndTyping(acc, hadError);
             if (hadError)
             {
                 _input.ActivateInputField();
                 return;
             }
-            AddBubble(false, "回答：" + acc);
             RefreshStatusSummary();        // 完成后恢复状态栏简介行
 
             _input.ActivateInputField();   // 发送后重新聚焦，便于连续输入
@@ -246,12 +245,27 @@ namespace MafRag
 
         private void BeginTyping()
         {
-            var brt = MakeBubble("正在思考…", 30, MafRagUI.Muted, MafRagUI.BotBubble, 50);
+            var brt = MakeBubble("正在思考…", 34, MafRagUI.Muted, MafRagUI.BotBubble, 50);
             _botTyping = brt.GetComponentInChildren<Text>();
             ScrollToBottom();
         }
         private void UpdateTyping(string s) { if (_botTyping != null) _botTyping.text = s; ScrollToBottom(); }
-        private void EndTyping() { if (_botTyping != null) { Destroy(_botTyping.transform.parent.gameObject); _botTyping = null; } }
+        private void EndTyping(string acc, bool hadError)
+        {
+            if (_botTyping != null)
+            {
+                if (hadError) Destroy(_botTyping.transform.parent.gameObject);
+                else _botTyping.text = "回答：" + acc;   // 复用“思考中”气泡作为答案气泡，不销毁，使来源位于其后
+                _botTyping = null;
+            }
+            // 布局重算后再滚到底部，确保位于末尾的参考来源气泡进入视口
+            StartCoroutine(ScrollToBottomNextFrame());
+        }
+        private System.Collections.IEnumerator ScrollToBottomNextFrame()
+        {
+            yield return null;
+            if (_scroll != null) { Canvas.ForceUpdateCanvases(); ScrollToBottom(); }
+        }
 
         // 状态栏初始/空闲时显示的一行简介；提问完成后也会恢复此行
         private async void RefreshStatusSummary()
